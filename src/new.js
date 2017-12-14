@@ -1,4 +1,5 @@
 function newFunction() {
+  //シートから入力されたタイトル、ボディを取得する
   SpreadsheetApp.getActiveSpreadsheet();
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = spreadsheet.getActiveSheet();
@@ -16,24 +17,28 @@ function newFunction() {
       }
     }
     var issue = {title:title,body:body};
-    Logger.log(issue);
-    sendHttpPost(JSON.stringify(issue));
+    if (issue != ''){
+      sendHttpPost(JSON.stringify(issue));
+    }
   }
 }
 
+//GithubAPIにPOST
 function sendHttpPost(data){
-   var data = data;
-
-   var options =
-   {
-     "method" : "post",
-     "payload" : data
-   };
+  var data = data;
+  var options =
+      {
+        "method" : "post",
+        "payload" : data
+      };
   
-   urlBuilder();
-   UrlFetchApp.fetch(url, options);
+  urlBuilder();
+  if (url != ''){
+    UrlFetchApp.fetch(url, options);
+  } 
 }
 
+//入力されたユーザー名、リポジトリ名、アクセストークンでURLを生成
 function urlBuilder(){
   SpreadsheetApp.getActiveSpreadsheet();
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
